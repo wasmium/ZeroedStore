@@ -1,0 +1,19 @@
+[package]
+name = "zeroed-store"
+version = "1.0.0"
+authors = ["Wasmium Network Developers <hq@wasmium.network>"]
+edition = "2021"
+license = "MPL-2.0"
+description = "A Simple Store to manage data initialized as zeroed bytes"
+homepage = "https://github.com/wasmium"
+repository = "https://github.com/wasmium/ZeroedStore"
+readme = "README.md"
+
+
+[dependencies]
+borsh = "0.9.3"
+
+[features]
+
+[dev-dependencies]
+bs58 = { version = "0.4.0" }
