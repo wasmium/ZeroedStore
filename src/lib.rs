@@ -23,7 +23,8 @@ mod sanity_tests {
 
     #[derive(Debug, BorshSerialize, BorshDeserialize, Default, PartialEq, Eq)]
     pub struct Foo {
-        bar: Vec<[u8; 32]>,
+        bar: [[u8; 32]; 3],
+        baz: [u8; 32],
     }
 
     #[test]
@@ -37,12 +38,13 @@ mod sanity_tests {
     #[test]
     fn custom_data() {
         let baz = Foo {
-            bar: vec![[1u8; 32], [3u8; 32], [2u8; 32]],
+            bar: [[1u8; 32], [3u8; 32], [2u8; 32]],
+            baz: [5u8; 32],
         };
         let mut foo = ZeroedStore::<Foo>::new();
         foo.data = baz;
 
-        let mut buffer = [0u8; 108];
+        let mut buffer = [0u8; ZeroedStore::<Foo>::size_of()];
         assert!(foo.pack(&mut buffer).is_ok());
 
         let bar = ZeroedStore::<Foo>::unpack(&buffer);

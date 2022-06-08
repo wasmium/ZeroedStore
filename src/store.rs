@@ -32,7 +32,7 @@ where
         let data = self.data.try_to_vec()?;
         let data_length = data.len();
 
-        if buffer_length < MARKER_LEN + data_length {
+        if buffer_length < ZeroedStore::<T>::size_of() {
             return Err(StoreError::BufferTooSmallForData {
                 buffer_length,
                 data_length,
@@ -79,8 +79,8 @@ where
         }
     }
 
-    pub fn size_of() -> usize {
-        core::mem::size_of::<T>() + 8
+    pub const fn size_of() -> usize {
+        core::mem::size_of::<T>() + MARKER_LEN
     }
 }
 
