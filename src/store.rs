@@ -18,7 +18,7 @@ pub struct ZeroedStore<T> {
 
 impl<T> ZeroedStore<T>
 where
-    T: BorshDeserialize + BorshSerialize + Default,
+    T: BorshDeserialize + BorshSerialize + Default + Sized,
 {
     pub fn new() -> Self {
         ZeroedStore { data: T::default() }
@@ -32,7 +32,7 @@ where
         let data = self.data.try_to_vec()?;
         let data_length = data.len();
 
-        if buffer_length < ZeroedStore::<T>::size_of() {
+        if buffer_length < data_length + MARKER_LEN {
             return Err(StoreError::BufferTooSmallForData {
                 buffer_length,
                 data_length,
@@ -79,6 +79,12 @@ where
         }
     }
 
+    #[cfg(feature = "non_constant_sizeof")]
+    pub fn size_of() -> usize {
+        core::mem::size_of::<T>() + MARKER_LEN
+    }
+
+    #[cfg(feature = "constant_sizeof")]
     pub const fn size_of() -> usize {
         core::mem::size_of::<T>() + MARKER_LEN
     }
