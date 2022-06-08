@@ -4,11 +4,11 @@
 // If a copy of the MPL was not distributed with this file,
 // You can obtain one at https://mozilla.org/MPL/2.0/.
 
-use borsh::maybestd::io::{Error as BorshIoError, ErrorKind as BorshErrorKind};
+use borsh::{maybestd::io::Error as BorshIoError, BorshDeserialize, BorshSerialize};
 
 pub type StoreResult<T> = Result<T, StoreError>;
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Eq, PartialOrd, Ord, BorshSerialize, BorshDeserialize)]
 pub enum StoreError {
     CorruptedMarker,
     /// The `unpack`er expected more data as indicated by the value of the `MARKER`
@@ -16,7 +16,7 @@ pub enum StoreError {
         marker: usize,
         buffer_length: usize,
     },
-    Borsh(BorshErrorKind),
+    Borsh(String),
     BufferTooSmallForMarker,
     BufferTooSmallForData {
         buffer_length: usize,
@@ -26,6 +26,6 @@ pub enum StoreError {
 
 impl From<BorshIoError> for StoreError {
     fn from(error: BorshIoError) -> Self {
-        StoreError::Borsh(error.kind())
+        StoreError::Borsh(format!("{:?}", error))
     }
 }
