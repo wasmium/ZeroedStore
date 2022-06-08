@@ -44,7 +44,7 @@ mod sanity_tests {
         let mut foo = ZeroedStore::<Foo>::new();
         foo.data = baz;
 
-        let mut buffer = [0u8; ZeroedStore::<Foo>::size_of()];
+        let mut buffer = [0u8; ZeroedStore::<Foo>::const_size_of()];
         assert!(foo.pack(&mut buffer).is_ok());
 
         let bar = ZeroedStore::<Foo>::unpack(&buffer);

@@ -85,7 +85,7 @@ where
     }
 
     #[cfg(feature = "constant_sizeof")]
-    pub const fn size_of() -> usize {
+    pub const fn const_size_of() -> usize {
         core::mem::size_of::<T>() + MARKER_LEN
     }
 }
