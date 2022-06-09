@@ -16,7 +16,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Build
+    - name: Build with const fn features
       run: cargo build --verbose
-    - name: Run tests
+    - name: Build with non const fn features
+      run: cargo build --no-default-features --features "non_constant_sizeof" --verbose
+    - name: Run tests with const fn features
       run: cargo test --verbose
+    - name: Run tests with non const fn features
+      run: cargo test --no-default-features --features "non_constant_sizeof" --verbose
