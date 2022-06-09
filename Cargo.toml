@@ -1,6 +1,6 @@
 [package]
 name = "zeroed-store"
-version = "2.0.0"
+version = "2.0.1"
 authors = ["Wasmium Network Developers <hq@wasmium.network>"]
 edition = "2021"
 license = "MPL-2.0"
