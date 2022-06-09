@@ -24,7 +24,7 @@ where
         ZeroedStore { data: T::default() }
     }
 
-    pub fn pack<const N: usize>(&self, buffer: &mut [u8; N]) -> StoreResult<usize> {
+    pub fn pack(&self, buffer: &mut [u8]) -> StoreResult<usize> {
         let buffer_length = buffer.len();
         if buffer_length < MARKER_LEN {
             return Err(StoreError::BufferTooSmallForMarker);
@@ -45,7 +45,7 @@ where
         Ok(data_length + 8usize)
     }
 
-    pub fn unpack<const N: usize>(buffer: &[u8; N]) -> StoreResult<ZeroedStore<T>> {
+    pub fn unpack(buffer: &[u8]) -> StoreResult<ZeroedStore<T>> {
         let buffer_length = buffer.len();
         if buffer_length < MARKER_LEN {
             return Err(StoreError::BufferTooSmallForMarker);
